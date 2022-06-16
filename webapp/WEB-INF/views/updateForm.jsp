@@ -15,10 +15,10 @@
 		아래항목을 기입하고 "수정" 버튼을 클릭하세요
 	</p>
 	
-	<form action="/phonebook3/update" method="get">
-		이름(name) <input type="text" name="name" value=""><br>
-		핸드폰(hp) <input type="text" name="hp" value=""><br>
-		회사(company) <input type="text" name="company" value=""><br>
+	<form action="/phonebook4/update" method="get">
+		이름(name) <input type="text" name="name" value="${personVo}"><br>
+		핸드폰(hp) <input type="text" name="hp" value="${personVo}"><br>
+		회사(company) <input type="text" name="company" value="${personVo}"><br>
 		
 		<button type="submit">수정</button>
 	</form>
