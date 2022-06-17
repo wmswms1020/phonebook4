@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,8 @@ public class PhoneController {
 		return "list";
 
 	}
+	
+	
 
 	// 전화번호 등록 폼
 	@RequestMapping(value = "/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
@@ -51,18 +54,21 @@ public class PhoneController {
 		return "writeForm";
 	}
 
+	
 	// 전화번호 등록(@ModelAttribute 사용)
 	@RequestMapping(value = "/write", method = { RequestMethod.GET, RequestMethod.POST })
 	public String write(@ModelAttribute PersonVo personVo) {
 		System.out.println("PhoneController>write()");
 
 		// Service를 통해서 저장한다
-		int count = phoneService.personInsert(personVo);
+		//int count = phoneService.personInsert(personVo);
+		int count = phoneService.personInsert2();
 
 		// 리다이렉트
 		return "redirect:/list";
 	}
-
+	
+	
 	// 전화번호 삭제
 	@RequestMapping(value = "/delete", method = { RequestMethod.GET, RequestMethod.POST })
 	public String delete(@RequestParam("no") int no) {
@@ -74,46 +80,62 @@ public class PhoneController {
 		return "redirect:/list";
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	// 전화번호 등록(파라미터 사용)
-	@RequestMapping(value = "/write2", method = { RequestMethod.GET, RequestMethod.POST })
-	public String write2(@RequestParam("name") String name, @RequestParam("hp") String hp,
-			@RequestParam("company") String company) {
-
+	@RequestMapping(value="/write2", method={RequestMethod.GET, RequestMethod.POST})
+	public String write2(@RequestParam("name") String name, 
+					    @RequestParam("hp") String hp,
+					    @RequestParam("company") String company) {
+		
 		System.out.println("PhoneController>write2()");
-
-		// 파라미터 꺼내기
+		
+		//파라미터 꺼내기
 		/*
-		 * System.out.println(name); System.out.println(hp);
-		 * System.out.println(company);
-		 */
-
-		// vo로 묶기
+		System.out.println(name);
+		System.out.println(hp);
+		System.out.println(company);
+		*/
+		
+		//vo로 묶기
 		PersonVo personVo = new PersonVo(name, hp, company);
 		System.out.println(personVo);
-
+		
 		// Service를 통해서 저장한다
 		int count = phoneService.personInsert(personVo);
 		System.out.println(count);
-
-		// 리다이렉트
+		
+		//리다이렉트
 		return "redirect:/list";
 	}
-
-	// 전화번호 삭제(@PathVariable 사용)
-	@RequestMapping(value = "/delete2/{no}", method = { RequestMethod.GET, RequestMethod.POST })
+	
+	
+	
+	
+	//전화번호 삭제(@PathVariable 사용)
+	@RequestMapping(value="/delete2/{no}", method={RequestMethod.GET, RequestMethod.POST})
 	public String delete2(@PathVariable("no") int num) {
 		System.out.println("PhoneController>delete()");
-
-		// 주소에서 값 꺼내기
+		
+		//주소에서 값 꺼내기
 		System.out.println(num);
-
+		
 		// Service를 통해서 삭제한다
 		int count = phoneService.personDelete(num);
 		System.out.println(count);
-
+		
 		return "redirect:/list";
 	}
-
+	
 	// 전화번호 수정폼
 	@RequestMapping(value = "/updateForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String updateForm(Model model, @RequestParam("no") int no) {
@@ -130,6 +152,26 @@ public class PhoneController {
 
 		return "updateForm";
 	}
+	
+	
+	// 전화번호 수정폼2
+	@RequestMapping(value="/updateForm2", method= {RequestMethod.GET, RequestMethod.POST})
+	public String updateForm2(Model model, @RequestParam("no") int no) {
+		System.out.println("PhoneController>updateForm2()");
+		
+		Map<String, Object> pMap = phoneService.getPerson2(no);
+		System.out.println(pMap);
+		
+		model.addAttribute("pMap",pMap);
+		
+		
+		
+		return "updateForm2";
+	}
+	
+	
+	
+	
 
 	// 전화번호 수정
 	@RequestMapping(value = "/update", method = { RequestMethod.GET, RequestMethod.POST })
@@ -144,5 +186,7 @@ public class PhoneController {
 
 		return "redirect:/list";
 	}
+	
+
 
 }
